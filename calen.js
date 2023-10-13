@@ -161,6 +161,7 @@ function isWeekday(year, month, day) {
 
 var actualDate = new Date();
 var weekdays = getWeekdaysInMonth(actualDate.getMonth(), actualDate.getFullYear());
+let daysOff = [];
 
 function init() {
   $(document).ready(function () {
@@ -194,6 +195,15 @@ function init() {
       clickEvents: {
         click: function (target) {
           console.log('Cal-1 clicked: ', target);
+          $(target.element).toggleClass('day-off');
+
+          if ($(target.element).hasClass('day-off')) {
+            daysOff.push(target.date._i);
+          } else {
+            daysOff.pop(target.date._i);
+          }
+
+          startCldnr();
         },
         today: function () {
           console.log('Cal-1 today');
@@ -255,8 +265,6 @@ function init() {
       }
     });
   });
-
-  // initCalen();
 }
 
 var selectedDays = '';
@@ -284,7 +292,6 @@ function startCldnr(action) {
     clearMonthsDays(weekdaysSelected);
     weekdays = getWeekdaysInMonth(actualDate.getMonth() + 1, actualDate.getFullYear());
     actualDate = new Date(actualDate.setMonth(actualDate.getMonth() + 1));
-
   }
 
   for (let i = 0; i < availableDays.length; i++) {
@@ -295,7 +302,7 @@ function startCldnr(action) {
     if (selectedDays.some(r => currDayName.includes(r))) {
       daysCount++;
 
-      if (daysCount <= 13) {
+      if (daysCount - daysOff.length <= 13) {
         $('.clndr-table').find('tbody').find('.calendar-day-' + date).addClass('res-good');
       } else {
         $('.clndr-table').find('tbody').find('.calendar-day-' + date).addClass('res-good-sobran');
@@ -303,10 +310,13 @@ function startCldnr(action) {
     }
   }
 
-  if (initialized && daysCount < 13) {
+  if (initialized && (daysCount - daysOff.length) && checkIfDayOfIsInSelectedDays(selectedDays) < 13) {
     $('#res').removeClass('res-good');
     $('#res').addClass('res-bad').text('No llegas a los días querido/a');
+    $('#daysMissing').empty();
+    $('#daysMissing').append('Te faltan: ' + '<label class="cBold">' + daysMissing(daysCount - daysOff.length) + '</label>' + ' días');
   } else if (initialized) {
+    $('#daysMissing').empty();
     $('#res').removeClass('res-bad');
     $('#res').addClass('res-good').text('Tranqui los pibes');
   }
@@ -321,6 +331,16 @@ function clearMonthsDays(weekdaysSelected) {
   for (let i = 0; i < weekdaysSelected.length; i++) {
     date = weekdaysSelected[i].toISOString().slice(0, 10);
     $('.clndr-table').find('tbody').find('.calendar-day-' + date).removeClass('res-good');
+  }
+}
+
+function daysMissing(daysCount) {
+  return 13 - daysCount;
+}
+
+function checkIfDayOfIsInSelectedDays(selectedDays) {
+  if (daysOff.some(r => selectedDays.includes(r))) {
+    availableDays[r].splice(r, 1); 
   }
 }
 
