@@ -85,6 +85,7 @@ $(function ($) {
 
     $li.prop('selected', selected);
     $li.toggleClass(options.itemSelectedClass);
+    initialized = true;
     startCldnr();
   }
 });
@@ -132,6 +133,7 @@ function getLocaleDay(days) {
 // Call this from the developer console and you can control both instances
 var calendars = {};
 var availableDays = [];
+let initialized = false;
 
 function getWeekdaysInMonth(month, year) {
   var days = daysInMonth(month, year);
@@ -156,7 +158,6 @@ function isWeekday(year, month, day) {
   var day = new Date(year, month, day).getDay();
   return day != 0 && day != 6;
 }
-
 
 var actualDate = new Date();
 var weekdays = getWeekdaysInMonth(actualDate.getMonth(), actualDate.getFullYear());
@@ -199,10 +200,12 @@ function init() {
         },
         nextMonth: function () {
           console.log('Cal-1 next month');
+          initialized = true;
           startCldnr('next');
           // init();
         },
         previousMonth: function () {
+          initialized = true;
           console.log('Cal-1 previous month');
           startCldnr('prev');
           // init();
@@ -300,10 +303,10 @@ function startCldnr(action) {
     }
   }
 
-  if (daysCount < 13) {
+  if (initialized && daysCount < 13) {
     $('#res').removeClass('res-good');
     $('#res').addClass('res-bad').text('No llegas a los días querido/a');
-  } else {
+  } else if (initialized) {
     $('#res').removeClass('res-bad');
     $('#res').addClass('res-good').text('Tranqui los pibes');
   }
