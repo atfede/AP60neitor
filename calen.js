@@ -200,6 +200,7 @@ function init() {
           if ($(target.element).hasClass('day-off')) {
             daysOff.push(target.date._i);
             // daysCount--;
+            $(target.element).append('<div class="txt-feriado">feriado</div>');
           } else {
             daysOff.pop(target.date._i);
             // daysCount++;
