@@ -199,8 +199,10 @@ function init() {
 
           if ($(target.element).hasClass('day-off')) {
             daysOff.push(target.date._i);
+            // daysCount--;
           } else {
             daysOff.pop(target.date._i);
+            // daysCount++;
           }
 
           startCldnr();
@@ -268,11 +270,12 @@ function init() {
 }
 
 var selectedDays = '';
+let daysCount;
 
 function startCldnr(action) {
   selectedDays = getLocaleDay($('#weekdays').selectedDays());
   let weekdaysSelected = '';
-  let daysCount = 0;
+  daysCount = 0;
   let currDayName = '';
   let date = '';
 
@@ -310,7 +313,7 @@ function startCldnr(action) {
     }
   }
 
-  if (initialized && (daysCount - daysOff.length) && checkIfDayOfIsInSelectedDays(selectedDays) < 13) {
+  if (initialized && (daysCount - daysOff.length) < 13) { //  && checkIfDayOfIsInSelectedDays(selectedDays)
     $('#res').removeClass('res-good');
     $('#res').addClass('res-bad').text('No llegas a los días querido/a');
     $('#daysMissing').empty();
@@ -340,7 +343,7 @@ function daysMissing(daysCount) {
 
 function checkIfDayOfIsInSelectedDays(selectedDays) {
   if (daysOff.some(r => selectedDays.includes(r))) {
-    availableDays[r].splice(r, 1); 
+    availableDays[r].splice(r, 1);
   }
 }
 
