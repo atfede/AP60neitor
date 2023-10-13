@@ -506,11 +506,11 @@ html,
     border-bottom: 1px solid #dee2e6;
 }
 
-.weekdays-list :first-child{
+.weekdays-list :first-child {
     border-left: 1px solid #dee2e6;
 }
 
-.weekdays-list :last-child{
+.weekdays-list :last-child {
     border-right: 1px solid #dee2e6;
 }
 
@@ -522,9 +522,25 @@ html,
 #res {
   font-size: 20px;
   width: 500px;
-    width: 300px;
-    text-align: center;
-    margin: 0 auto;
+  width: 300px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+#daysMissing {
+  font-size: 20px;
+  width: 500px;
+  width: 300px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.cBold {
+  font-weight: bold;
+}
+
+.day-off {
+  background-color: yellow;
 }
 
 /**/
@@ -536,7 +552,7 @@ html,
       <div id="weekdays"> </div>
 
       <div id='res'></div>
-      <label id></label>
+      <div id='daysMissing'></div>
       <div class="cal1"></div>
     </div>
 
