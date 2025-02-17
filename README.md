@@ -1,2 +1,2 @@
 # AP60neitor
-AP60neitor FTW!
+Days of the week calculator.
